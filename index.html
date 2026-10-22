@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MyUI, a modern interface for Clarion</title>
+<meta name="description" content="MyUI is a free Clarion class that renders your windows in HTML, CSS and JavaScript.">
+<script>
+(function () {
+  var t = 'light';
+  try {
+    var s = localStorage.getItem('myui-theme');
+    if (s === 'dark' || s === 'light') t = s;
+    else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
+  } catch (e) {}
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+:root{--accent:#2347E8;--ink:#0F172A;--muted:#475569;--line:#E2E8F0;--ground:#F7F8FA}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:'Instrument Sans',system-ui,sans-serif;line-height:1.5}
+a{text-decoration:none}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+code{font-family:'JetBrains Mono',monospace;font-size:.9em}
+.wrap{width:100%;max-width:1200px;margin:0 auto;padding:0 24px}
+header .wrap{padding-top:24px;padding-bottom:24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.logo{display:block;width:56px;height:56px}
+nav{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px;font-size:15px;font-weight:500}
+nav a.link{color:#334155}
+.lang{display:inline-flex;padding:3px;border:1px solid #D5DBE4;border-radius:999px;background:#fff}
+.lang button{font:inherit;font-size:14px;font-weight:600;border:0;border-radius:999px;min-width:44px;min-height:44px;cursor:pointer;background:transparent;color:#334155}
+.lang button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.pill{background:var(--ink);color:#fff;padding:11px 20px;border-radius:999px;min-height:44px;display:inline-flex;align-items:center}
+.btn{background:var(--accent);color:#fff;font-weight:600;font-size:16px;padding:14px 26px;border-radius:12px;min-height:48px;display:inline-flex;align-items:center}
+.btn.alt{background:#fff;color:var(--ink);border:1px solid #D5DBE4}
+.hero{padding-top:56px;padding-bottom:88px;display:flex;flex-wrap:wrap;align-items:center;gap:56px}
+.hero .col{flex:1 1 440px;min-width:0}
+.hero .text{display:flex;flex-direction:column;gap:28px}
+.badges{display:flex;flex-wrap:wrap;gap:8px}
+.badge{font-size:13px;font-weight:600;color:#334155;background:#EAEEF3;padding:6px 12px;border-radius:999px}
+.badge.free{color:var(--accent);background:#E8EDFD}
+h1{margin:0;font-size:clamp(40px,6vw,68px);line-height:1.04;letter-spacing:-.035em;font-weight:700}
+h2{margin:0;font-size:clamp(30px,4vw,44px);line-height:1.1;letter-spacing:-.03em;font-weight:700}
+.lead{margin:0;font-size:19px;color:var(--muted);max-width:540px}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.code{background:var(--ink);border-radius:16px;overflow:hidden;box-shadow:0 24px 48px -24px rgba(15,23,42,.45)}
+.code .bar{display:flex;align-items:center;gap:8px;padding:14px 18px;border-bottom:1px solid #1E293B}
+.code .dot{width:10px;height:10px;border-radius:50%;background:#334155}
+.code .file{margin-left:10px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#94A3B8}
+.code pre{margin:0;padding:22px 20px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.75;color:#E2E8F0}
+.c-c{color:#94A3B8}.c-m{color:#7DD3FC}.c-s{color:#FDBA74}.c-k{color:#C4B5FD}
+.band{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.section{padding-top:88px;padding-bottom:88px;display:flex;flex-direction:column;gap:48px}
+.head{display:flex;flex-direction:column;gap:12px;max-width:640px}
+.eyebrow{font-size:14px;font-weight:600;color:var(--accent)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.card{display:flex;flex-direction:column;gap:12px;padding:28px;border:1px solid var(--line);border-radius:16px;background:var(--ground)}
+.card h3{margin:0;font-size:19px;letter-spacing:-.01em}
+.card p{margin:0;color:var(--muted);font-size:15.5px}
+.card svg{width:28px;height:28px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px}
+.step{display:flex;flex-direction:column;gap:12px;border-top:2px solid var(--ink);padding-top:20px}
+.step .n{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent);font-weight:500}
+.step h3{margin:0;font-size:21px;letter-spacing:-.01em}
+.step p{margin:0;color:var(--muted);font-size:16px}
+.cta{background:#fff;border-top:1px solid var(--line)}
+.cta .wrap{padding-top:88px;padding-bottom:88px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px}
+.cta h2{font-size:clamp(30px,4.4vw,48px);max-width:680px}
+.cta p{margin:0;color:var(--muted);font-size:18px;max-width:520px}
+footer .wrap{padding-top:32px;padding-bottom:32px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:14px;color:var(--muted)}
+footer .brand{display:flex;align-items:center;gap:12px}
+footer img{width:32px;height:32px;display:block}
+.shots{padding-top:88px;padding-bottom:88px;display:flex;flex-direction:column;gap:40px}
+.shots .head{max-width:680px}
+.show{position:relative;max-width:1100px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.show:focus-visible{outline:3px solid var(--accent);outline-offset:6px;border-radius:16px}
+.stage{position:relative;overflow:hidden;border-radius:16px;background:#2C3441;border:1px solid #1E293B;box-shadow:0 24px 48px -24px rgba(15,23,42,.45);aspect-ratio:2560/1528;touch-action:pan-y}
+.track{display:flex;height:100%;transition:transform .35s ease}
+.slide{flex:0 0 100%;height:100%;margin:0}
+.slide img{display:block;width:100%;height:100%;object-fit:scale-down}
+.nav-btn{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:0;background:rgba(15,23,42,.78);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
+.nav-btn:hover{background:rgba(15,23,42,.95)}
+.nav-btn svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.nav-btn.prev{left:14px}.nav-btn.next{right:14px}
+.caption{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;min-height:48px}
+.mode{font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;white-space:nowrap}
+.mode.clarion{color:#334155;background:#EAEEF3}
+.mode.myui{color:#fff;background:var(--accent)}
+.caption .txt{flex:1 1 320px;font-size:17px;color:var(--ink)}
+.count{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted)}
+.dots{display:flex;flex-wrap:wrap;justify-content:center;gap:0}
+.dots button{width:36px;height:44px;border:0;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.dots button span{width:10px;height:10px;border-radius:50%;background:#CBD5E1;display:block;transition:background .2s,transform .2s}
+.dots button[aria-current="true"] span{background:var(--accent);transform:scale(1.35)}
+.support .wrap{padding-top:40px;padding-bottom:72px}
+.request .wrap{padding-top:56px}
+.request .btn{align-self:flex-start;margin-top:8px}
+.note{max-width:820px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px}
+.note h3{margin:0;font-size:21px;letter-spacing:-.01em}
+.note p{margin:0;color:var(--muted);font-size:16.5px}
+.note p a{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.cta{border-bottom:1px solid var(--line)}
+.theme-btn{width:44px;height:44px;border-radius:50%;border:1px solid #D5DBE4;background:#fff;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.theme-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.theme-btn .sun{display:none}
+html[data-theme="dark"]{--accent:#3A5BE6;--accent-t:#9DB4FF;--ink:#E5E9F2;--muted:#A3AEC2;--line:#26324A;--ground:#0B1120;--surface:#111A2E;--panel:#131D33;color-scheme:dark}
+html[data-theme="dark"] body{background:var(--ground);color:var(--ink)}
+html[data-theme="dark"] nav a.link{color:#C5CEDF}
+html[data-theme="dark"] .lang{background:var(--surface);border-color:var(--line)}
+html[data-theme="dark"] .lang button{color:#C5CEDF}
+html[data-theme="dark"] .lang button[aria-pressed="true"]{background:#E5E9F2;color:#0B1120}
+html[data-theme="dark"] .theme-btn{background:var(--surface);border-color:var(--line)}
+html[data-theme="dark"] .theme-btn .sun{display:block}
+html[data-theme="dark"] .theme-btn .moon{display:none}
+html[data-theme="dark"] .pill{background:#E5E9F2;color:#0B1120}
+html[data-theme="dark"] .btn.alt{background:var(--surface);color:var(--ink);border-color:#33415E}
+html[data-theme="dark"] .badge,html[data-theme="dark"] .mode.clarion{background:#1B2640;color:#C5CEDF}
+html[data-theme="dark"] .badge.free{background:#1A2A5C;color:var(--accent-t)}
+html[data-theme="dark"] .eyebrow,html[data-theme="dark"] .step .n,html[data-theme="dark"] .note p a{color:var(--accent-t)}
+html[data-theme="dark"] .card svg{stroke:var(--accent-t)}
+html[data-theme="dark"] .band,html[data-theme="dark"] .cta{background:var(--surface)}
+html[data-theme="dark"] .card{background:var(--ground)}
+html[data-theme="dark"] .note{background:var(--surface)}
+html[data-theme="dark"] .code{background:#0F1729;border:1px solid var(--line);box-shadow:0 24px 48px -24px rgba(0,0,0,.6)}
+html[data-theme="dark"] .stage{border-color:var(--line);box-shadow:0 24px 48px -24px rgba(0,0,0,.6)}
+html[data-theme="dark"] .dots button span{background:#3A4763}
+html[data-theme="dark"] .dots button[aria-current="true"] span{background:var(--accent-t)}
+html[data-theme="dark"] .cta{border-bottom-color:var(--line)}
+html[data-theme="dark"] a:focus-visible,html[data-theme="dark"] button:focus-visible,html[data-theme="dark"] .show:focus-visible{outline-color:var(--accent-t)}
+.sub{margin:0;color:var(--muted);font-size:18px}
+.status{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:10px;color:var(--muted);font-size:16px}
+@media (prefers-reduced-motion:reduce){.track{transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="#top" aria-label="MyUI" data-i18n-aria="home"><img class="logo" src="logo.png" alt="MyUI"></a>
+    <nav>
+      <a class="link" href="#screens" data-i18n="navShots">Screenshots</a>
+      <a class="link" href="#features" data-i18n="navFeatures">Features</a>
+      <a class="link" href="#how" data-i18n="navHow">How it works</a>
+      <a class="link" href="#convert">MyUIConvert</a>
+      <a class="link" href="#tool">MyUI_Tool</a>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+      </div>
+      <button type="button" class="theme-btn" id="theme" aria-pressed="false" aria-label="Dark mode" data-i18n-aria="themeLabel">
+        <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="pill" data-download href="https://github.com/" data-i18n="navDownload">Download demo</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section id="top" class="wrap hero">
+    <div class="col text">
+      <div class="badges">
+        <span class="badge free" data-i18n="badgeFree">Free</span>
+        <span class="badge">Clarion 12</span>
+        <span class="badge" data-i18n="badgeLegacy">Legacy template</span>
+      </div>
+      <h1 data-i18n="h1">A modern interface for your Clarion applications.</h1>
+      <p class="lead" data-i18n="lead">MyUI is a free Clarion class that renders your windows in HTML, CSS and JavaScript. Your application logic stays in Clarion, right where it already is.</p>
+      <div class="actions">
+        <a class="btn" data-download href="https://github.com/" data-i18n="ctaDl">Download the demo</a>
+        <a class="btn alt" href="#how" data-i18n="ctaHow">See how it works</a>
+      </div>
+    </div>
+    <div class="col">
+      <div class="code">
+        <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="file">Window.clw</span></div>
+<pre><span class="c-c">! Describe the window like native controls</span>
+UI.<span class="c-m">AddEntry</span>(<span class="c-s">'CustName'</span>,CustName,10,10,120)
+UI.<span class="c-m">AddButton</span>(<span class="c-s">'Save'</span>,<span class="c-s">'Save'</span>,10,32,50)
+UI.<span class="c-m">GetHTML</span>(UI_HTML)
+
+<span class="c-c">! Your logic stays in Clarion</span>
+<span class="c-k">CASE</span> pEventName
+<span class="c-k">OF</span> <span class="c-s">'Save'</span>
+  <span class="c-m">DO</span> SaveCustomer
+<span class="c-k">END</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="screens" class="wrap shots">
+    <div class="head">
+      <span class="eyebrow" data-i18n="shEyebrow">Screenshots</span>
+      <h2 data-i18n="shH2">See it in action.</h2>
+      <p class="sub" data-i18n="shSub">Screenshots of the demo, in Clarion mode and in MyUI mode.</p>
+    </div>
+    <div class="show" data-prefix="cap" data-aria="shAria" data-modes="myui,clarion,myui,clarion,myui,myui,myui,myui" role="region" aria-roledescription="carousel" tabindex="0">
+      <div class="stage">
+        <div class="track">
+          <figure class="slide"><img src="screenshots/00-menubar-tools.jpg" alt="" width="1600" height="955"></figure>
+          <figure class="slide"><img src="screenshots/01-controls-clarion.jpg" alt="" width="1600" height="955" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/02-controls-myui.jpg" alt="" width="1600" height="955" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/03-browse-clarion.jpg" alt="" width="1600" height="955" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/04-browse-myui.jpg" alt="" width="1600" height="955" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/05-svg-buttons.jpg" alt="" width="1600" height="955" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/06-charts.jpg" alt="" width="1600" height="955" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/07-themes.png" alt="" width="549" height="544" loading="lazy"></figure>
+        </div>
+        <button type="button" class="nav-btn prev" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button type="button" class="nav-btn next" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+      <div class="caption" aria-live="polite">
+        <span class="mode myui"></span>
+        <span class="txt"></span>
+        <span class="count"></span>
+      </div>
+      <div class="dots"></div>
+    </div>
+  </section>
+
+  <section id="features" class="band">
+    <div class="wrap section">
+      <div class="head">
+        <span class="eyebrow" data-i18n="fEyebrow">Features</span>
+        <h2 data-i18n="fH2">Modern web, without leaving Clarion.</h2>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>
+          <h3 data-i18n="f1h">HTML, CSS and JavaScript</h3>
+          <p data-i18n="f1p">Modern rendering inside a Clarion window, powered by Ingasoft's EasyEdgeChromium control, built on WebView2.</p>
+        </div>
+        <div class="card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 10l2.5 2.5L8 15M13 15h3"/></svg>
+          <h3 data-i18n="f2h">Your logic stays in Clarion</h3>
+          <p data-i18n="f2p">Events, data access and business rules stay in your procedures. Nothing to rewrite on the server side.</p>
+        </div>
+        <div class="card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM17 14v6M14 17h6"/></svg>
+          <h3 data-i18n="f3h">Familiar conventions</h3>
+          <p data-i18n="f3p">Positioning in DLU, <code>AddXxx()</code> methods and <code>CASE pEventName</code> events, just like native controls.</p>
+        </div>
+        <div class="card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg>
+          <h3 data-i18n="f4h">Free, for the Legacy template</h3>
+          <p data-i18n="f4p">A freely available class, designed to fit into existing Clarion applications that use the Legacy template.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" class="wrap section" style="padding-top:96px;padding-bottom:96px">
+    <div class="head">
+      <span class="eyebrow" data-i18n="sEyebrow">How it works</span>
+      <h2 data-i18n="sH2">Three steps, no disruption.</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="n">01</span><h3 data-i18n="s1h">Add the class</h3><p data-i18n="s1p">Integrate MyUI into your Clarion Legacy application, with the EasyEdgeChromium control on the window.</p></div>
+      <div class="step"><span class="n">02</span><h3 data-i18n="s2h">Describe the interface</h3><p data-i18n="s2p">Call the <code>AddXxx()</code> methods to place your elements, then let MyUI generate the HTML.</p></div>
+      <div class="step"><span class="n">03</span><h3 data-i18n="s3h">Keep your Clarion code</h3><p data-i18n="s3p">Handle page events in a <code>CASE pEventName</code>, just as you already do.</p></div>
+    </div>
+  </section>
+
+  <section id="convert" class="band">
+    <div class="wrap section">
+      <div class="head">
+        <span class="eyebrow">MyUIConvert</span>
+        <h2 data-i18n="cH2">Start from your existing windows with MyUIConvert.</h2>
+        <p class="sub" data-i18n="cP">MyUIConvert reads your application's TXA export and generates the matching MyUI code for your windows. No need to rebuild everything by hand.</p>
+      </div>
+    <div class="show" data-prefix="ccap" data-aria="convAria" role="region" aria-roledescription="carousel" tabindex="0">
+      <div class="stage">
+        <div class="track">
+          <figure class="slide"><img src="screenshots/convert-1.jpg" alt="" width="975" height="882"></figure>
+        </div>
+        <button type="button" class="nav-btn prev" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button type="button" class="nav-btn next" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+      <div class="caption" aria-live="polite">
+        <span class="txt"></span>
+        <span class="count"></span>
+      </div>
+      <div class="dots"></div>
+    </div>
+      <div class="cards">
+        <div class="card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h10l4 4v12H5z"/><path d="M9 12h6M9 16h4"/></svg>
+          <h3 data-i18n="cv1h">Convert from the TXA</h3>
+          <p data-i18n="cv1p">Select one or several TXA files exported from the IDE. Every procedure that has a window is converted.</p>
+        </div>
+        <div class="card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>
+          <h3 data-i18n="cv2h">Code written in your embeds</h3>
+          <p data-i18n="cv2p">The UI.AddXxx() calls and the event handling code are written into the embeds, while all the logic of your application stays in Clarion.</p>
+        </div>
+        <div class="card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+          <h3 data-i18n="cv3h">Your original is kept</h3>
+          <p data-i18n="cv3p">A .bak copy of the original TXA is kept. Import the converted TXA back, then add the EasyEdgeChromium control to the converted windows.</p>
+        </div>
+      </div>
+      <p class="status"><span class="badge free" data-i18n="toolStatus">Coming soon</span> <span data-i18n="convFoot">MyUIConvert is being finalized. It will be sent to those who request the MyUI class as soon as it is ready.</span></p>
+    </div>
+  </section>
+
+
+  <section id="tool">
+    <div class="wrap section">
+      <div class="head">
+        <span class="eyebrow">MyUI_Tool</span>
+        <h2 data-i18n="toolH2">Build your UI calls visually.</h2>
+        <p class="sub" data-i18n="toolLead">MyUI_Tool is a helper for the MyUI class. It shows the methods and controls of the class and builds the corresponding UI.AddXxx() calls for you, with an icon library and a visual window editor.</p>
+      </div>
+    <div class="show" data-prefix="tcap" data-aria="toolAria" role="region" aria-roledescription="carousel" tabindex="0">
+      <div class="stage">
+        <div class="track">
+          <figure class="slide"><img src="screenshots/tool-1.jpg" alt="" width="1261" height="1132"></figure>
+          <figure class="slide"><img src="screenshots/tool-2.jpg" alt="" width="1261" height="1132" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/tool-3.jpg" alt="" width="1261" height="1132" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/tool-4.jpg" alt="" width="1261" height="1132" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/tool-5.jpg" alt="" width="1261" height="1132" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/tool-6.jpg" alt="" width="1600" height="955" loading="lazy"></figure>
+        </div>
+        <button type="button" class="nav-btn prev" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button type="button" class="nav-btn next" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+      <div class="caption" aria-live="polite">
+        <span class="txt"></span>
+        <span class="count"></span>
+      </div>
+      <div class="dots"></div>
+    </div>
+      <div class="cards">
+        <div class="card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h4M3 12h4M3 19h4M10 5h11M10 12h11M10 19h11"/></svg>
+          <h3 data-i18n="t1h">Browse the class</h3>
+          <p data-i18n="t1p">Three trees list the methods, controls and SVG icons, with a search box. Select an item to see its description and its parameters, required or optional.</p>
+        </div>
+        <div class="card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+          <h3 data-i18n="t2h">Build the calls</h3>
+          <p data-i18n="t2p">Enter a value for each parameter, with editors for colors, icons, fonts and flags. A live preview is displayed and the call is generated with its position, ready to paste in your embed point.</p>
+        </div>
+        <div class="card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h10l4 4v12H5z"/><path d="M9 12h6M9 16h4"/></svg>
+          <h3 data-i18n="t3h">Your notes, your catalog</h3>
+          <p data-i18n="t3p">Add your own notes and descriptions to each control, saved in the tool settings. Import the method catalog again from MyUI.inc when the class changes.</p>
+        </div>
+        <div class="card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>
+          <h3 data-i18n="t4h">SVG icons</h3>
+          <p data-i18n="t4p">Use the icon library of the class or your own: create or import SVG icons, sort them into groups and folders, and export them as files.</p>
+        </div>
+        <div class="card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18M9 6l3-3 3 3M9 18l3 3 3-3M6 9l-3 3 3 3M18 9l3 3-3 3"/></svg>
+          <h3 data-i18n="t5h">Visual editor</h3>
+          <p data-i18n="t5p">Paste UI.AddXxx() lines or open a file: each control is drawn at its position, scaled in DLU. Move and resize with the mouse or the arrow keys, with a grid, multiple selection, alignment tools, Undo and Redo.</p>
+        </div>
+        <div class="card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></svg>
+          <h3 data-i18n="t6h">Safe write-back</h3>
+          <p data-i18n="t6p">Write (F11) updates only the four numbers X, Y, Width and Height in your code. Events, variables and comments stay untouched.</p>
+        </div>
+        <div class="card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/></svg>
+          <h3 data-i18n="t7h">From a Clarion window</h3>
+          <p data-i18n="t7p">The Native window page converts a Clarion WINDOW declaration into the equivalent MyUI code, ready to be adjusted in the editor.</p>
+        </div>
+        <div class="card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          <h3 data-i18n="t8h">Resize simulation</h3>
+          <p data-i18n="t8p">A resize handle simulates the resizing of the window, so you can check your anchors and proportions (RegisterResize and related methods) before compiling.</p>
+        </div>
+      </div>
+      <p class="status"><span class="badge free" data-i18n="toolStatus">Coming soon</span> <span data-i18n="toolFoot">MyUI_Tool is being finalized. It will be sent to those who request the MyUI class as soon as it is ready.</span></p>
+    </div>
+  </section>
+
+  <section id="request" class="request">
+    <div class="wrap">
+      <div class="note">
+        <h3 data-i18n="requestH">Get the MyUI class and its tools</h3>
+        <p data-i18n="requestP">The demo is a preview. The MyUI class is sent by private email, and only to users who ask for it by writing to <a href="mailto:myui@free.fr">myui@free.fr</a> (or with the button below). The MyUIConvert and MyUI_Tool utilities are being finalized: they will be sent to those who request the class as soon as they are ready.</p>
+        <a class="btn" id="reqBtn" href="mailto:myui@free.fr?subject=Demander%20la%20classe%20MyUI" data-i18n="requestBtn">Request by email</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="support">
+    <div class="wrap">
+      <div class="note">
+        <h3 data-i18n="supportH">Free, and open to your feedback.</h3>
+        <p data-i18n="supportP">This class is offered for free. Optional donations (via <a href="https://paypal.me/ClarionMyUI" target="_blank" rel="noopener">PayPal</a>) are welcome, as are improvement requests and bug reports, which I will fix to the best of my ability.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="brand"><img src="logo.png" alt=""><span data-i18n="foot1">MyUI, a free Clarion class for the Legacy template.</span></span>
+    <span data-i18n="foot2">Rendering powered by Ingasoft's EasyEdgeChromium.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // --- Download link -------------------------------------------------------
+  // Leave OWNER and REPO empty: they are read from the GitHub Pages address
+  // (https://OWNER.github.io/REPO/). Fill them only with a custom domain.
+  var OWNER = '';
+  var REPO = '';
+  var FILE = 'Setup_MyUI_Legacy_Demo.exe';
+
+  function downloadUrl() {
+    var owner = OWNER, repo = REPO, host = location.hostname;
+    if (!owner && /\.github\.io$/i.test(host)) {
+      owner = host.split('.')[0];
+      var seg = location.pathname.split('/')[1];
+      repo = (seg && seg.indexOf('.') === -1) ? seg : owner + '.github.io';
+    }
+    if (!owner || !repo) return 'https://github.com/';
+    return 'https://github.com/' + owner + '/' + repo + '/releases/latest/download/' + FILE;
+  }
+
+  var url = downloadUrl();
+  Array.prototype.forEach.call(document.querySelectorAll('a[data-download]'), function (a) {
+    a.setAttribute('href', url);
+  });
+
+  // --- Language ------------------------------------------------------------
+  var T = {
+    en: {
+      home: 'MyUI, home',
+      navFeatures: 'Features', navHow: 'How it works', navDownload: 'Download demo',
+      badgeFree: 'Free', badgeLegacy: 'Legacy template',
+      h1: 'A modern interface for your Clarion applications.',
+      lead: 'MyUI is a free Clarion class that renders your windows in HTML, CSS and JavaScript. Your application logic stays in Clarion, right where it already is.',
+      ctaDl: 'Download the demo', ctaHow: 'See how it works',
+      fEyebrow: 'Features', fH2: 'Modern web, without leaving Clarion.',
+      f1h: 'HTML, CSS and JavaScript',
+      f1p: "Modern rendering inside a Clarion window, powered by Ingasoft's EasyEdgeChromium control, built on WebView2.",
+      f2h: 'Your logic stays in Clarion',
+      f2p: 'Events, data access and business rules stay in your procedures. Nothing to rewrite on the server side.',
+      f3h: 'Familiar conventions',
+      f3p: 'Positioning in DLU, <code>AddXxx()</code> methods and <code>CASE pEventName</code> events, just like native controls.',
+      f4h: 'Free, for the Legacy template',
+      f4p: 'A free class, designed to fit into existing Clarion applications that use the Legacy template.',
+      sEyebrow: 'How it works', sH2: 'Three steps, no disruption.',
+      s1h: 'Add the class',
+      s1p: 'Integrate MyUI into your Clarion Legacy application, with the EasyEdgeChromium control on the window.',
+      s2h: 'Describe the interface',
+      s2p: 'Call the <code>AddXxx()</code> methods to place your elements, then let MyUI generate the HTML.',
+      s3h: 'Keep your Clarion code',
+      s3p: 'Handle page events in a <code>CASE pEventName</code>, just as you already do.',
+      cH2: 'Start from your existing windows with MyUIConvert.',
+      cP: "MyUIConvert reads your application's TXA export and generates the matching MyUI code for your windows. No need to rebuild everything by hand.",
+      cv1h: 'Convert from the TXA', cv1p: 'Select one or several TXA files exported from the IDE. Every procedure that has a window is converted.',
+      cv2h: 'Code written in your embeds', cv2p: 'The UI.AddXxx() calls and the event handling code are written into the embeds, while all the logic of your application stays in Clarion.',
+      cv3h: 'Your original is kept', cv3p: 'A .bak copy of the original TXA is kept. Import the converted TXA back, then add the EasyEdgeChromium control to the converted windows.',
+      convFoot: 'MyUIConvert is being finalized. It will be sent to those who request the MyUI class as soon as it is ready.',
+      convAria: 'Screenshot of MyUIConvert', toolAria: 'Screenshots of MyUI_Tool',
+      ccap1: 'MyUIConvert: select one or several TXA files exported from the IDE, then click Convert.',
+      tcap1: 'The Methods tab lists the 131 methods of the class, with their description and their parameters, required or optional.',
+      tcap2: 'The Controls tab lists the 71 controls. Select a parameter to enter its value, with its description beside it.',
+      tcap3: 'Color editor: pick a color on the wheel or in the palette, or type its Hex or RGB value.',
+      tcap4: 'The SVG tab shows the code for an icon: the call ready to paste, and the code to register your own copy.',
+      tcap5: 'SVG preview at 16, 32, 48 and 64 pixels, and at 32 pixels on a light and on a dark background.',
+      tcap6: 'Visual editor: each control is drawn at its position, with its properties on the right and the generated code on the left.',
+      mailSubject: 'MyUI class request',
+      requestH: 'Get the MyUI class and its tools',
+      requestP: 'The demo is a preview. The MyUI class is sent by private email, and only to users who ask for it by writing to <a href="mailto:myui@free.fr">myui@free.fr</a> (or with the button below). The MyUIConvert and MyUI_Tool utilities are being finalized: they will be sent to those who request the class as soon as they are ready.',
+      requestBtn: 'Request by email',
+      toolStatus: 'Coming soon',
+      toolH2: 'Build your UI calls visually.',
+      toolLead: 'MyUI_Tool is a helper for the MyUI class. It shows the methods and controls of the class and builds the corresponding UI.AddXxx() calls for you, with an icon library and a visual window editor.',
+      t1h: 'Browse the class',
+      t1p: 'Three trees list the methods, controls and SVG icons, with a search box. Select an item to see its description and its parameters, required or optional.',
+      t2h: 'Build the calls',
+      t2p: 'Enter a value for each parameter, with editors for colors, icons, fonts and flags. A live preview is displayed and the call is generated with its position, ready to paste in your embed point.',
+      t3h: 'Your notes, your catalog',
+      t3p: 'Add your own notes and descriptions to each control, saved in the tool settings. Import the method catalog again from MyUI.inc when the class changes.',
+      t4h: 'SVG icons',
+      t4p: 'Use the icon library of the class or your own: create or import SVG icons, sort them into groups and folders, and export them as files.',
+      t5h: 'Visual editor',
+      t5p: 'Paste UI.AddXxx() lines or open a file: each control is drawn at its position, scaled in DLU. Move and resize with the mouse or the arrow keys, with a grid, multiple selection, alignment tools, Undo and Redo.',
+      t6h: 'Safe write-back',
+      t6p: 'Write (F11) updates only the four numbers X, Y, Width and Height in your code. Events, variables and comments stay untouched.',
+      t7h: 'From a Clarion window',
+      t7p: 'The Native window page converts a Clarion WINDOW declaration into the equivalent MyUI code, ready to be adjusted in the editor.',
+      t8h: 'Resize simulation',
+      t8p: 'A resize handle simulates the resizing of the window, so you can check your anchors and proportions (RegisterResize and related methods) before compiling.',
+      toolFoot: 'MyUI_Tool is being finalized. It will be sent to those who request the MyUI class as soon as it is ready.',
+      supportH: 'Free, and open to your feedback.',
+      supportP: 'This class is offered for free. Optional donations (via <a href="https://paypal.me/ClarionMyUI" target="_blank" rel="noopener">PayPal</a>) are welcome, as are improvement requests and bug reports, which I will fix to the best of my ability.',
+      themeLabel: 'Dark mode',
+      foot1: 'MyUI, a free Clarion class for the Legacy template.',
+      foot2: "Rendering powered by Ingasoft's EasyEdgeChromium.",
+      title: 'MyUI, a modern interface for Clarion',
+      navShots: 'Screenshots', shEyebrow: 'Screenshots', shH2: 'See it in action.',
+      shSub: 'Screenshots of the demo, in Clarion mode and in MyUI mode.',
+      shAria: 'Screenshots of the demo', prev: 'Previous screenshot', next: 'Next screenshot', slide: 'Screenshot',
+      modeClarion: 'Clarion mode', modeMyUI: 'MyUI mode',
+      cap1: 'The themed menu bar and its Tools menu: Themes, Toast, Date Picker, Calculator and Colors, each with its own icon.',
+      cap2: 'A standard Clarion window: the Controls window with native rendering.',
+      cap3: 'The same Controls window rendered by MyUI: themed inputs, grouped actions, switches and pickers.',
+      cap4: 'A standard Clarion Browse on the MyUITests file, with native rendering.',
+      cap5: 'The same Browse in MyUI: filter boxes under the headers, a side menu, an icon context menu and in-place editing.',
+      cap6: 'SVG buttons: icon positions, colors, states, custom SVG icons and a built-in library of 146 icons.',
+      cap7: 'Charts: bars, lines, donut, gauge, scatter, stacked bars and sparklines, with SVG and PNG export.',
+      cap8: 'Themes: twelve color themes to change the look of your application.'
+    },
+    fr: {
+      home: 'MyUI, accueil',
+      navFeatures: 'Fonctionnalités', navHow: 'Fonctionnement', navDownload: 'Télécharger la démo',
+      badgeFree: 'Gratuit', badgeLegacy: 'Template Legacy',
+      h1: 'Une interface moderne pour vos applications Clarion.',
+      lead: 'MyUI est une classe Clarion gratuite qui affiche vos fenêtres en HTML, CSS et JavaScript. Votre logique applicative reste en Clarion, là où elle est déjà.',
+      ctaDl: 'Télécharger la démo', ctaHow: 'Voir comment ça marche',
+      fEyebrow: 'Fonctionnalités', fH2: 'Le web moderne, sans quitter Clarion.',
+      f1h: 'HTML, CSS et JavaScript',
+      f1p: "Un rendu moderne dans une fenêtre Clarion, grâce au contrôle EasyEdgeChromium d'Ingasoft, basé sur WebView2.",
+      f2h: 'Votre logique reste en Clarion',
+      f2p: 'Événements, accès aux données et règles métier restent dans vos procédures. Rien à réécrire côté serveur.',
+      f3h: 'Des conventions familières',
+      f3p: 'Positionnement en DLU, méthodes <code>AddXxx()</code> et événements en <code>CASE pEventName</code>, comme avec les contrôles natifs.',
+      f4h: 'Gratuit, pour le template Legacy',
+      f4p: "Une classe gratuite, pensée pour s'intégrer aux applications Clarion existantes qui utilisent le template Legacy.",
+      sEyebrow: 'Fonctionnement', sH2: 'Trois étapes, aucune rupture.',
+      s1h: 'Ajoutez la classe',
+      s1p: 'Intégrez MyUI à votre application Clarion Legacy, avec le contrôle EasyEdgeChromium sur la fenêtre.',
+      s2h: "Décrivez l'interface",
+      s2p: 'Appelez les méthodes <code>AddXxx()</code> pour placer vos éléments, puis laissez MyUI produire le HTML.',
+      s3h: 'Gardez votre code Clarion',
+      s3p: 'Traitez les événements de la page dans un <code>CASE pEventName</code>, comme vous le faites déjà.',
+      cH2: 'Partez de vos fenêtres existantes avec MyUIConvert.',
+      cP: "MyUIConvert lit l'export TXA de votre application et génère le code MyUI correspondant à vos fenêtres. Vous évitez de tout recréer à la main.",
+      cv1h: 'Conversion depuis le TXA', cv1p: "Sélectionnez un ou plusieurs fichiers TXA exportés depuis l'IDE. Chaque procédure qui possède une fenêtre est convertie.",
+      cv2h: 'Code écrit dans vos embeds', cv2p: "Les appels UI.AddXxx() et le code de gestion des événements sont écrits dans les embeds, alors que toute la logique de votre application reste en Clarion.",
+      cv3h: 'Votre original est conservé', cv3p: "Une copie .bak du TXA d'origine est conservée. Réimportez le TXA converti, puis ajoutez le contrôle EasyEdgeChromium aux fenêtres converties.",
+      convFoot: "MyUIConvert est en cours de finalisation. Il sera adressé à ceux qui demanderont la classe MyUI dès qu'il sera prêt.",
+      convAria: "Capture d'écran de MyUIConvert", toolAria: "Captures d'écran de MyUI_Tool",
+      ccap1: "MyUIConvert : sélectionnez un ou plusieurs fichiers TXA exportés depuis l'IDE, puis cliquez sur Convert.",
+      tcap1: "L'onglet Methods liste les 131 méthodes de la classe, avec leur description et leurs paramètres, obligatoires ou facultatifs.",
+      tcap2: "L'onglet Controls liste les 71 contrôles. Sélectionnez un paramètre pour saisir sa valeur, avec sa description à côté.",
+      tcap3: "Éditeur de couleur : choisissez une couleur sur la roue ou dans la palette, ou saisissez sa valeur Hex ou RVB.",
+      tcap4: "L'onglet SVG affiche le code d'une icône : l'appel prêt à coller, et le code pour enregistrer votre propre copie.",
+      tcap5: "Aperçu SVG en 16, 32, 48 et 64 pixels, et en 32 pixels sur fond clair et sur fond sombre.",
+      tcap6: "Éditeur visuel : chaque contrôle est dessiné à sa position, avec ses propriétés à droite et le code généré à gauche.",
+      mailSubject: 'Demander la classe MyUI',
+      requestH: 'Obtenir la classe MyUI et ses outils',
+      requestP: 'La démo est un aperçu. La classe MyUI est envoyée par e-mail privé, uniquement aux utilisateurs qui en font la demande à <a href="mailto:myui@free.fr">myui@free.fr</a> (ou avec le bouton ci-dessous). Les outils MyUIConvert et MyUI_Tool sont en cours de finalisation : ils seront adressés à ceux qui demanderont la classe dès qu\'ils seront prêts.',
+      requestBtn: 'Demander par e-mail',
+      toolStatus: 'Bientôt disponible',
+      toolH2: 'Construisez vos appels UI visuellement.',
+      toolLead: "MyUI_Tool est un assistant pour la classe MyUI. Il présente les méthodes et les contrôles de la classe et construit pour vous les appels UI.AddXxx() correspondants, avec une bibliothèque d'icônes et un éditeur visuel de fenêtres.",
+      t1h: 'Parcourir la classe',
+      t1p: 'Trois arbres listent les méthodes, les contrôles et les icônes SVG, avec une zone de recherche. Sélectionnez un élément pour voir sa description et ses paramètres, obligatoires ou facultatifs.',
+      t2h: 'Construire les appels',
+      t2p: "Saisissez une valeur par paramètre, avec des éditeurs pour les couleurs, les icônes, les polices et les indicateurs. Un aperçu en direct s'affiche et l'appel est généré avec sa position, prêt à coller dans votre point d'embed.",
+      t3h: 'Vos notes, votre catalogue',
+      t3p: "Ajoutez vos propres notes et descriptions à chaque contrôle, enregistrées dans les réglages de l'outil. Réimportez le catalogue des méthodes depuis MyUI.inc quand la classe évolue.",
+      t4h: 'Icônes SVG',
+      t4p: "Utilisez la bibliothèque d'icônes de la classe ou les vôtres : créez ou importez des icônes SVG, classez-les en groupes et en dossiers, et exportez-les en fichiers.",
+      t5h: 'Éditeur visuel',
+      t5p: "Collez des lignes UI.AddXxx() ou ouvrez un fichier : chaque contrôle est dessiné à sa position, à l'échelle en DLU. Déplacez et redimensionnez à la souris ou aux flèches, avec grille, sélection multiple, outils d'alignement, Annuler et Rétablir.",
+      t6h: 'Écriture sans risque',
+      t6p: 'Écrire (F11) ne met à jour que les quatre nombres X, Y, Largeur et Hauteur dans votre code. Les événements, les variables et les commentaires restent intacts.',
+      t7h: 'Depuis une fenêtre Clarion',
+      t7p: "La page Native window convertit une déclaration WINDOW de Clarion en code MyUI équivalent, prêt à être ajusté dans l'éditeur.",
+      t8h: 'Simulation du redimensionnement',
+      t8p: 'Une poignée simule le redimensionnement de la fenêtre pour vérifier vos ancrages et vos proportions (RegisterResize et méthodes associées) avant de compiler.',
+      toolFoot: "MyUI_Tool est en cours de finalisation. Il sera adressé à ceux qui demanderont la classe MyUI dès qu'il sera prêt.",
+      supportH: 'Gratuit, et ouvert à vos retours.',
+      supportP: 'Cette classe est proposée gratuitement. Les dons facultatifs (via <a href="https://paypal.me/ClarionMyUI" target="_blank" rel="noopener">PayPal</a>) sont les bienvenus, tout comme les demandes d’amélioration et les signalements de bugs, que je corrigerai dans la mesure de mes moyens.',
+      themeLabel: 'Mode sombre',
+      foot1: 'MyUI, classe Clarion gratuite pour le template Legacy.',
+      foot2: "Rendu assuré par EasyEdgeChromium d'Ingasoft.",
+      title: 'MyUI, une interface moderne pour Clarion',
+      navShots: 'Captures', shEyebrow: 'Captures d’écran', shH2: 'Voyez-le en action.',
+      shSub: 'Captures d’écran de la démo, en mode Clarion et en mode MyUI.',
+      shAria: 'Captures d’écran de la démo', prev: 'Capture précédente', next: 'Capture suivante', slide: 'Capture',
+      modeClarion: 'Mode Clarion', modeMyUI: 'Mode MyUI',
+      cap1: 'La barre de menus thématisée et son menu Tools : Themes, Toast, Date Picker, Calculator et Colors, chacun avec son icône.',
+      cap2: 'Une fenêtre Clarion standard : la fenêtre Controls avec le rendu natif.',
+      cap3: 'La même fenêtre Controls rendue par MyUI : champs thématisés, actions groupées, interrupteurs et sélecteurs.',
+      cap4: 'Un Browse Clarion standard sur le fichier MyUITests, avec le rendu natif.',
+      cap5: 'Le même Browse avec MyUI : filtres sous les en-têtes, menu latéral, menu contextuel à icônes et édition sur place.',
+      cap6: 'Boutons SVG : position des icônes, couleurs, états, icônes SVG personnalisées et bibliothèque intégrée de 146 icônes.',
+      cap7: 'Graphiques : barres, courbes, anneau, jauge, nuage de points, barres empilées et sparklines, avec export SVG et PNG.',
+      cap8: 'Thèmes : douze thèmes de couleurs pour changer l’apparence de votre application.'
+    }
+  };
+
+  var curLang = 'en';
+
+  function apply(lang) {
+    var d = T[lang] || T.en;
+    curLang = T[lang] ? lang : 'en';
+    document.documentElement.setAttribute('lang', lang);
+    document.title = d.title;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n]'), function (el) {
+      var k = el.getAttribute('data-i18n');
+      if (d[k] !== undefined) el.innerHTML = d[k];
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n-aria]'), function (el) {
+      var k = el.getAttribute('data-i18n-aria');
+      if (d[k] !== undefined) el.setAttribute('aria-label', d[k]);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.lang button'), function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang ? 'true' : 'false');
+    });
+    renderAll();
+  }
+
+  // --- Slideshows ----------------------------------------------------------
+  var shows = [];
+
+  function initShow(root) {
+    var track = root.querySelector('.track');
+    var slides = track.querySelectorAll('.slide');
+    var modeEl = root.querySelector('.mode');
+    var capEl = root.querySelector('.txt');
+    var countEl = root.querySelector('.count');
+    var dotsEl = root.querySelector('.dots');
+    var prevBtn = root.querySelector('.prev');
+    var nextBtn = root.querySelector('.next');
+    var prefix = root.getAttribute('data-prefix');
+    var ariaKey = root.getAttribute('data-aria');
+    var modes = (root.getAttribute('data-modes') || '').split(',');
+    var N = slides.length, idx = 0, dotBtns = [];
+
+    if (N < 2) {
+      prevBtn.style.display = 'none';
+      nextBtn.style.display = 'none';
+    } else {
+      for (var i = 0; i < N; i++) {
+        (function (n) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.appendChild(document.createElement('span'));
+          b.addEventListener('click', function () { go(n); });
+          dotsEl.appendChild(b);
+          dotBtns.push(b);
+        })(i);
+      }
+    }
+
+    function render() {
+      var d = T[curLang] || T.en;
+      track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+      if (modeEl) {
+        modeEl.textContent = modes[idx] === 'clarion' ? d.modeClarion : d.modeMyUI;
+        modeEl.className = 'mode ' + modes[idx];
+      }
+      capEl.textContent = d[prefix + (idx + 1)];
+      countEl.textContent = N > 1 ? (idx + 1) + ' / ' + N : '';
+      root.setAttribute('aria-label', d[ariaKey]);
+      prevBtn.setAttribute('aria-label', d.prev);
+      nextBtn.setAttribute('aria-label', d.next);
+      for (var j = 0; j < N; j++) {
+        slides[j].setAttribute('aria-hidden', j === idx ? 'false' : 'true');
+        slides[j].querySelector('img').setAttribute('alt', d[prefix + (j + 1)]);
+        if (dotBtns[j]) {
+          dotBtns[j].setAttribute('aria-label', d.slide + ' ' + (j + 1));
+          if (j === idx) dotBtns[j].setAttribute('aria-current', 'true'); else dotBtns[j].removeAttribute('aria-current');
+        }
+      }
+    }
+
+    function go(n) { idx = (n + N) % N; render(); }
+    prevBtn.addEventListener('click', function () { go(idx - 1); });
+    nextBtn.addEventListener('click', function () { go(idx + 1); });
+    root.addEventListener('keydown', function (e) {
+      if (N < 2) return;
+      if (e.key === 'ArrowLeft') { go(idx - 1); e.preventDefault(); }
+      else if (e.key === 'ArrowRight') { go(idx + 1); e.preventDefault(); }
+    });
+    var tx = null;
+    root.addEventListener('touchstart', function (e) { tx = e.touches[0].clientX; }, { passive: true });
+    root.addEventListener('touchend', function (e) {
+      if (tx === null || N < 2) return;
+      var dx = e.changedTouches[0].clientX - tx;
+      tx = null;
+      if (Math.abs(dx) > 40) go(dx < 0 ? idx + 1 : idx - 1);
+    });
+    shows.push(render);
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.show'), initShow);
+
+  // --- Request email (subject follows the page language) -----------
+  function updateMail() {
+    var d = T[curLang] || T.en;
+    var a = document.getElementById('reqBtn');
+    if (a) a.setAttribute('href', 'mailto:myui@free.fr?subject=' + encodeURIComponent(d.mailSubject));
+  }
+
+  function renderAll() {
+    for (var i = 0; i < shows.length; i++) shows[i]();
+    updateMail();
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.lang button'), function (b) {
+    b.addEventListener('click', function () {
+      var lang = b.getAttribute('data-lang');
+      apply(lang);
+      try { localStorage.setItem('myui-lang', lang); } catch (e) {}
+    });
+  });
+
+  // --- Theme ---------------------------------------------------------------
+  var themeBtn = document.getElementById('theme');
+  function setTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    themeBtn.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+  }
+  setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+  themeBtn.addEventListener('click', function () {
+    var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    setTheme(t);
+    try { localStorage.setItem('myui-theme', t); } catch (e) {}
+  });
+
+  var saved = 'en';
+  try { saved = localStorage.getItem('myui-lang') || 'en'; } catch (e) {}
+  if (saved !== 'en') apply(saved); else renderAll();
+})();
+</script>
+</body>
+</html>
