@@ -135,7 +135,13 @@ html[data-theme="dark"] .cta{border-bottom-color:var(--line)}
 html[data-theme="dark"] a:focus-visible,html[data-theme="dark"] button:focus-visible,html[data-theme="dark"] .show:focus-visible{outline-color:var(--accent-t)}
 .sub{margin:0;color:var(--muted);font-size:18px}
 .status{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:10px;color:var(--muted);font-size:16px}
-@media (prefers-reduced-motion:reduce){.track{transition:none}html{scroll-behavior:auto}}
+.show.long .stage{aspect-ratio:5/3;background:#E9ECEF}
+.show.long .dots{display:none}
+.prog{height:4px;border-radius:2px;background:#CBD5E1;overflow:hidden}
+.prog span{display:block;height:100%;width:0;background:var(--accent);transition:width .35s ease}
+html[data-theme="dark"] .prog{background:#3A4763}
+html[data-theme="dark"] .prog span{background:var(--accent-t)}
+@media (prefers-reduced-motion:reduce){.track,.prog span{transition:none}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
@@ -310,6 +316,76 @@ UI.<span class="c-m">GetHTML</span>(UI_HTML)
   </section>
 
 
+  <section id="animation" class="wrap shots">
+    <div class="head">
+      <span class="eyebrow">Animation</span>
+      <h2 data-i18n="animH2">Step-by-step animation: transform a simple Clarion application with MyUI in a few minutes!</h2>
+    </div>
+    <div class="show long" data-prefix="acap" data-aria="animAria" role="region" aria-roledescription="carousel" tabindex="0">
+      <div class="stage">
+        <div class="track">
+          <figure class="slide"><img src="screenshots/anim-01.webp" alt="" width="1600" height="960"></figure>
+          <figure class="slide"><img src="screenshots/anim-02.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-03.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-04.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-05.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-06.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-07.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-08.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-09.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-10.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-11.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-12.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-13.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-14.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-15.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-16.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-17.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-18.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-19.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-20.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-21.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-22.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-23.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-24.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-25.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-26.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-27.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-28.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-29.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-30.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-31.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-32.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-33.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-34.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-35.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-36.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-37.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-38.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-39.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-40.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-41.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-42.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-43.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-44.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-45.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-46.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-47.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-48.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+          <figure class="slide"><img src="screenshots/anim-49.webp" alt="" width="1600" height="960" loading="lazy"></figure>
+        </div>
+        <button type="button" class="nav-btn prev" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button type="button" class="nav-btn next" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+      <div class="caption" aria-live="polite">
+        <span class="txt"></span>
+        <span class="count"></span>
+      </div>
+      <div class="prog" aria-hidden="true"><span></span></div>
+      <div class="dots"></div>
+    </div>
+  </section>
+
   <section id="tool">
     <div class="wrap section">
       <div class="head">
@@ -464,6 +540,8 @@ UI.<span class="c-m">GetHTML</span>(UI_HTML)
       cv1h: 'Convert from the TXA', cv1p: 'Select one or several TXA files exported from the IDE. Every procedure that has a window is converted.',
       cv2h: 'Code written in your embeds', cv2p: 'The UI.AddXxx() calls and the event handling code are written into the embeds, while all the logic of your application stays in Clarion.',
       cv3h: 'Your original is kept', cv3p: 'A .bak copy of the original TXA is kept. Import the converted TXA back, then add the EasyEdgeChromium control to the converted windows.',
+      animH2: 'Step-by-step animation: transform a simple Clarion application with MyUI in a few minutes!',
+      animAria: 'Step-by-step animation', animStep: 'Step',
       convFoot: 'MyUIConvert is being finalized. It will be sent to those who request the MyUI class as soon as it is ready.',
       convAria: 'Screenshot of MyUIConvert', toolAria: 'Screenshots of MyUI_Tool',
       ccap1: 'MyUIConvert: select one or several TXA files exported from the IDE, then click Convert.',
@@ -544,6 +622,8 @@ UI.<span class="c-m">GetHTML</span>(UI_HTML)
       cv1h: 'Conversion depuis le TXA', cv1p: "Sélectionnez un ou plusieurs fichiers TXA exportés depuis l'IDE. Chaque procédure qui possède une fenêtre est convertie.",
       cv2h: 'Code écrit dans vos embeds', cv2p: "Les appels UI.AddXxx() et le code de gestion des événements sont écrits dans les embeds, alors que toute la logique de votre application reste en Clarion.",
       cv3h: 'Votre original est conservé', cv3p: "Une copie .bak du TXA d'origine est conservée. Réimportez le TXA converti, puis ajoutez le contrôle EasyEdgeChromium aux fenêtres converties.",
+      animH2: 'Animation pas à pas&nbsp;: transformer une application Clarion simple avec MyUI en quelques minutes&nbsp;!',
+      animAria: 'Animation pas à pas', animStep: 'Étape',
       convFoot: "MyUIConvert est en cours de finalisation. Il sera adressé à ceux qui demanderont la classe MyUI dès qu'il sera prêt.",
       convAria: "Capture d'écran de MyUIConvert", toolAria: "Captures d'écran de MyUI_Tool",
       ccap1: "MyUIConvert : sélectionnez un ou plusieurs fichiers TXA exportés depuis l'IDE, puis cliquez sur Convert.",
@@ -659,14 +739,22 @@ UI.<span class="c-m">GetHTML</span>(UI_HTML)
         modeEl.textContent = modes[idx] === 'clarion' ? d.modeClarion : d.modeMyUI;
         modeEl.className = 'mode ' + modes[idx];
       }
-      capEl.textContent = d[prefix + (idx + 1)];
+      var cap = d[prefix + (idx + 1)];
+      capEl.textContent = cap !== undefined ? cap : '';
       countEl.textContent = N > 1 ? (idx + 1) + ' / ' + N : '';
       root.setAttribute('aria-label', d[ariaKey]);
+      var pr = root.querySelector('.prog span');
+      if (pr) pr.style.width = (N > 1 ? (idx + 1) * 100 / N : 100) + '%';
+      if (N > 1) {
+        slides[(idx + 1) % N].querySelector('img').loading = 'eager';
+        slides[(idx + N - 1) % N].querySelector('img').loading = 'eager';
+      }
       prevBtn.setAttribute('aria-label', d.prev);
       nextBtn.setAttribute('aria-label', d.next);
       for (var j = 0; j < N; j++) {
         slides[j].setAttribute('aria-hidden', j === idx ? 'false' : 'true');
-        slides[j].querySelector('img').setAttribute('alt', d[prefix + (j + 1)]);
+        var c = d[prefix + (j + 1)];
+        slides[j].querySelector('img').setAttribute('alt', c !== undefined ? c : (d.animStep ? d.animStep + ' ' + (j + 1) + ' / ' + N : ''));
         if (dotBtns[j]) {
           dotBtns[j].setAttribute('aria-label', d.slide + ' ' + (j + 1));
           if (j === idx) dotBtns[j].setAttribute('aria-current', 'true'); else dotBtns[j].removeAttribute('aria-current');
