@@ -31,6 +31,8 @@ code{font-family:'JetBrains Mono',monospace;font-size:.9em}
 .wrap{width:100%;max-width:1200px;margin:0 auto;padding:0 24px}
 header .wrap{padding-top:24px;padding-bottom:24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
 .logo{display:block;width:56px;height:56px}
+.brandcol{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.ver{display:flex;flex-direction:column;font-size:12px;line-height:1.35;color:var(--muted)}
 nav{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px;font-size:15px;font-weight:500}
 nav a.link{color:#334155}
 .lang{display:inline-flex;padding:3px;border:1px solid #D5DBE4;border-radius:999px;background:#fff}
@@ -148,7 +150,10 @@ html[data-theme="dark"] .prog span{background:var(--accent-t)}
 
 <header>
   <div class="wrap">
-    <a href="#top" aria-label="MyUI" data-i18n-aria="home"><img class="logo" src="logo.png" alt="MyUI"></a>
+    <div class="brandcol">
+      <a href="#top" aria-label="MyUI" data-i18n-aria="home"><img class="logo" src="logo.png" alt="MyUI"></a>
+      <div class="ver"><span data-i18n="relDate">24 October 2026</span><span data-i18n="relVer">Version 1.10</span></div>
+    </div>
     <nav>
       <a class="link" href="#screens" data-i18n="navShots">Screenshots</a>
       <a class="link" href="#features" data-i18n="navFeatures">Features</a>
@@ -514,6 +519,7 @@ UI.<span class="c-m">GetHTML</span>(UI_HTML)
   var T = {
     en: {
       home: 'MyUI, home',
+      relDate: '24 October 2026', relVer: 'Version 1.10',
       navFeatures: 'Features', navHow: 'How it works', navDownload: 'Download demo',
       badgeFree: 'Free', badgeLegacy: 'Legacy template',
       h1: 'A modern interface for your Clarion applications.',
@@ -596,6 +602,7 @@ UI.<span class="c-m">GetHTML</span>(UI_HTML)
     },
     fr: {
       home: 'MyUI, accueil',
+      relDate: '24 octobre 2026', relVer: 'Version 1.10',
       navFeatures: 'Fonctionnalités', navHow: 'Fonctionnement', navDownload: 'Télécharger la démo',
       badgeFree: 'Gratuit', badgeLegacy: 'Template Legacy',
       h1: 'Une interface moderne pour vos applications Clarion.',
